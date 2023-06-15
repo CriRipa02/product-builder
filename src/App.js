@@ -2,48 +2,31 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Models from "./sections/models";
 import Colors from "./sections/colors";
+import Accessories from "./sections/accessories";
+import Summary from "./sections/summary";
 
 function App() {
-  const url = ["models", "colors", "accessories", "summary"];
-
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="main-header">
         <h1>Product Builder</h1>
         <nav className="cd-builder-main-nav">
-          {/*<ul>
-            { url.map((ele, idx) =>
-              <li className={ page === ele ? 'active' : ''} key={idx} onClick={() => handleClick(idx)}>
-                { page } 
-                { ele }
-                <a href={"#" + ele}>{ ele }</a>
-              </li>
-            ) }
-            <li className={ page === '' ? "active" : "" }><a href={"#" + url[0]}>Models</a></li>
-            <li className=""><a href={"#" + url[1]}>Colors</a></li>
-            <li><a href={"#" + url[2]}>Accessories</a></li>
-            <li><a href={"#" + url[3]}>Summary</a></li>
-          </ul>
-          <BrowserRouter>
-            <Routes>
-              <Route index element={<Models />} />
-              <Route path="models" element={<Models />} />
-              <Route path="colors" element={<Colors />} />
-            </Routes>
-          </BrowserRouter>*/}
           <Router>
             <ul className="navbar-nav mr-auto">
               <li><Link to={'/models'} className="nav-link">Models</Link></li>
               <li><Link to={'/colors'} className="nav-link">Colors</Link></li>
+              <li><Link to={'/accessories'} className="nav-link">Accessories</Link></li>
+              <li><Link to={'/summary'} className="nav-link">Summary</Link></li>
             </ul>
             <Routes>
-              <Route path='/models' component={Models} />
-              <Route path='/colors' component={Colors} />
+              <Route index element={<Models />} />
+              <Route path='/models' element={<Models />} />
+              <Route path='/colors' element={<Colors />} />
+              <Route path='/accessories' element={<Accessories />} />
+              <Route path='/summary' element={<Summary />} />
             </Routes>
           </Router>
         </nav>
-
-
       </header>
     </div >
   );
