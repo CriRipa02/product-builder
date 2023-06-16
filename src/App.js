@@ -5,12 +5,15 @@ import Colors from "./sections/colors";
 import Accessories from "./sections/accessories";
 import Summary from "./sections/summary";
 import { useState, useContext, createContext } from "react";
+import Footer from "./sections/footer";
 
 const UserContext = createContext();
 
 function App() {
   const [page, setPage] = useState("models");
   const [total, setTotal] = useState(0);
+  const [model, setModel] = useState({});
+  const [priceModelAddedBefore, setPriceModelAddedBefore] = useState(0);
 
   const url = [
     { name: "models", component: Models },
@@ -21,6 +24,14 @@ function App() {
 
   const updateTotal = (newTotal) => {
     setTotal(newTotal);
+  }
+
+  const updateModel = (newModel) => {
+    setModel(newModel);
+  }
+
+  const updatePriceModelAddedBefore = (newPrice) => {
+    setPriceModelAddedBefore(newPrice);
   }
 
   return (
@@ -41,44 +52,15 @@ function App() {
             
             <UserContext.Provider value={total}>
               <Routes>
-                <Route index element={<Models />} />
+                <Route index element={<Models total={total} model={model} priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} />
                 {url.map(ele =>
-                  <Route path={"/" + ele.name} element={<ele.component total={total} update={updateTotal} />} key={ele.name} />
+                  <Route path={"/" + ele.name} element={<ele.component total={total} model={model} priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} key={ele.name} />
                 )}
               </Routes>
             </UserContext.Provider>
           </Router>
         </header>
-        <footer className="cd-builder-footer step-1 disabled">
-          <div className="selected-product">
-            <img src="img/product01_col01.jpg" alt="Product preview" />
-            <div className="tot-price">
-              <span>Total</span>
-              <span className="total">$<b>{total}</b></span>
-            </div>
-          </div>
-          <nav className="cd-builder-secondary-nav">
-            <ul>
-              <li className="next nav-item">
-                <ul>
-                  <li className="visible"><a href="#0">Colors</a></li>
-                  <li className=""><a href="#0">Accessories</a></li>
-                  <li className=""><a href="#0">Summary</a></li>
-                  <li className="buy"><a href="#0">Buy Now</a></li>
-                </ul>
-              </li>
-              <li className="prev nav-item">
-                <ul>
-                  <li className="visible"><a href="#0">Models</a></li>
-                  <li className=""><a href="#0">Models</a></li>
-                  <li className=""><a href="#0">Colors</a></li>
-                  <li className=""><a href="#0">Accessories</a></li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-          <span className="alert">Please, select a model first!</span>
-        </footer>
+        <Footer total={total} model={model} />
       </div >
     </div>
   );

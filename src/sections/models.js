@@ -5,37 +5,42 @@ import model1 from "../assets/models/product01.jpg";
 import model2 from "../assets/models/product02.jpg";
 
 export default function Models(props) {
-    const [model, setModel] = useState({});
-    let [total, setTotal] = useState(Number(props.total));
-
     const models = [
-        { name: "BMW i3", img: model1, value: "product-01", price: "42400", textPrice: "from $42.400" },
-        { name: "BMW i8", img: model2, value: "product-02", price: "140700", textPrice: "from $140.700" }
+        { name: "BMW i3", img: model1, imgName: "product01.jpg", value: "product-01", price: "42400", textPrice: "from $42.400" },
+        { name: "BMW i8", img: model2, imgName: "product02.jpg", value: "product-02", price: "140700", textPrice: "from $140.700" }
     ]
 
     const valorizeModel = (data) => {
-        if (!model.name) {
-            setModel(data);
-            //setTotal(total + Number(data.price));
-            props.update(total + Number(data.price))
+        const price = Number(data.price);
+        let updMod = props.model;
+        let updTotal = Number(props.total);
+        let updPriceMod = Number(props.priceModelAddedBefore);
+
+        if (!updMod.name) {
+            updMod = data;
+            updTotal += price;
+            updPriceMod = price;
         } else {
-            if (model.value === data.value) {
-                setModel({});
-                setTotal(total - Number(data.price));
-                props.update(total - Number(data.price))
+            if (updMod.value === data.value) {
+                updMod = {};
+                updTotal -= price;
             } else {
-                setModel(data);
-                setTotal(Number(props.total) + Number(data.price));
-                props.update(Number(props.total) + Number(data.price))
+                updMod = data;
+                updTotal -= updPriceMod;
+                updTotal += price;
+                updPriceMod = price;
             }
         }
+        props.updMod(updMod);
+        props.updTot(updTotal);
+        props.updPriceMod(updPriceMod);
     }
 
     return (
         <section className="cd-builder-steps cd-step-content">
             <ul className="models-list options-list cd-col-2">
                 {models.map(ele =>
-                    <li className={`js-option js-radio ${ele.value === model.value ? "selected loaded" : ""}`}
+                    <li className={`js-option js-radio ${ele.value === props.model.value ? "selected loaded" : ""}`}
                         data-price={ele.price} data-model={ele.value}
                         onClick={() => valorizeModel(ele)} key={ele.name}
                     >
