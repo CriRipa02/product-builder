@@ -308,7 +308,7 @@ img {
 }
 
 .cd-step-content .radio::after,.cd-step-content .check::after {
-  /*background: url(../img/cd-icon-check.svg) no-repeat center center*/
+  background: url(./assets/cd-icon-check.svg) no-repeat center center
 }
 
 .cd-step-content .radio::before {
@@ -329,7 +329,7 @@ img {
   animation: cd-bounce .5s
 }
 
-.active .cd-step-content {
+.cd-step-content {
   opacity: 1;
   -webkit-transform: translateX(0);
   -ms-transform: translateX(0);
@@ -1214,7 +1214,7 @@ img {
   position: absolute;
   height: 16px;
   width: 16px;
-  /*background: url(../img/cd-icon-arrow.svg) no-repeat 0 0;*/
+  background: url(./assets/cd-icon-check.svg) no-repeat 0 0;
   pointer-events: none
 }
 
