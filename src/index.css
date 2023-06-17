@@ -726,7 +726,8 @@ img {
   transform: translateX(-50%)
 }
 
-.cd-product-customizer a {
+.cd-product-customizer div {
+  cursor: pointer;
   display: inline-block;
   overflow: hidden;
   text-indent: 100%;
@@ -741,7 +742,7 @@ img {
   transition: box-shadow .3s
 }
 
-.cd-product-customizer .selected a {
+.cd-product-customizer .selected div {
   box-shadow: 0 0 0 2px #ffb500
 }
 
@@ -750,7 +751,7 @@ img {
       margin-right:1em
   }
 
-  .cd-product-customizer a {
+  .cd-product-customizer div {
       height: 50px;
       width: 50px
   }
@@ -1214,7 +1215,7 @@ img {
   position: absolute;
   height: 16px;
   width: 16px;
-  background: url(./assets/cd-icon-check.svg) no-repeat 0 0;
+  background: url(./assets/cd-icon-arrow.svg) no-repeat 0 0;
   pointer-events: none
 }
 

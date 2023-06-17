@@ -1,25 +1,52 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Models from "./sections/models";
-import Colors from "./sections/colors";
-import Accessories from "./sections/accessories";
-import Summary from "./sections/summary";
-import { useState, useContext, createContext } from "react";
+import Models from "./sections/pages/models";
+import Colors from "./sections/pages/colors";
+import Accessories from "./sections/pages/accessories";
+import Summary from "./sections/pages/summary";
+import { useState } from "react";
+import Header from "./sections/header";
 import Footer from "./sections/footer";
 
-const UserContext = createContext();
+import prod01_col01 from "./assets/colors/product01_col01.jpg";
+import prod01_col02 from "./assets/colors/product01_col02.jpg";
+import prod01_col03 from "./assets/colors/product01_col03.jpg";
+import prod02_col01 from "./assets/colors/product01_col01.jpg";
+import prod02_col02 from "./assets/colors/product01_col02.jpg";
 
 function App() {
   const [page, setPage] = useState("models");
   const [total, setTotal] = useState(0);
   const [model, setModel] = useState({});
   const [priceModelAddedBefore, setPriceModelAddedBefore] = useState(0);
+  const [color, setColor] = useState({});
+
+  const model1 = {
+    id: "BMW i3", types: [
+      { img: prod01_col01, value: 0, text: "White", color: "white" },
+      { img: prod01_col02, value: 550, text: "Mineral Grey", color: "grey" },
+      { img: prod01_col03, value: 550, text: "Orange Metallic", color: "orange" },
+    ]
+  }
+  const model2 = {
+    id: "BMW i8", types: [
+      { img: prod02_col01, value: 0, text: "Grey Metallic", color: "grey" },
+      { img: prod02_col02, value: 1800, text: "White Perl Metallic", color: "perl" },
+    ]
+  }
 
   const url = [
-    { name: "models", component: Models },
-    { name: "colors", component: Colors },
-    { name: "accessories", component: Accessories },
-    { name: "summary", component: Summary }
+    { name: "models", text: "Model", component: Models },
+    { name: "colors", text: "Color", component: Colors },
+    { name: "accessories", text: "Accessories", component: Accessories },
+    { name: "summary", text: "Summary", component: Summary }
+  ];
+
+  const footer = [
+    { pageFrom: "models", pageTo: "colors", component: Models },
+    { pageFrom: "colors", pageTo: "accessories", component: Accessories },
+    { pageFrom: "accessories", pageTo: "summary", component: Summary },
+    { pageFrom: "summary", pageTo: "buy-now", component: Summary }
   ];
 
   const updateTotal = (newTotal) => {
@@ -34,35 +61,50 @@ function App() {
     setPriceModelAddedBefore(newPrice);
   }
 
+  const updatePage = (newPage) => {
+    setPage(newPage);
+  }
+
   return (
-    <div className="App">
+    <Router>
       <div className="cd-product-builder">
-        <header className="main-header">
-          <h1>Product Builder</h1>
-          <Router>
-            <nav className="cd-builder-main-nav">
-              <ul className="navbar-nav mr-auto">
-                {url.map(ele =>
-                  <li className={page === ele.name ? "active" : ""} onClick={() => setPage(ele.name)} key={ele.name}>
-                    <Link to={"/" + ele.name} className="nav-link">{ele.name}</Link>
-                  </li>
-                )}
-              </ul>
-            </nav>
-            
-            <UserContext.Provider value={total}>
+        <Header url={url} page={page} updPage={updatePage} />
+
+        <div className="cd-builder-steps">
+          <div className="builder-step active back">
+            <section className="cd-step-content">
+              {url.map((ele, idx) =>
+                <header key={ele.name} className={ele.name !== page ? "no-display" : ""}>
+                  <h1>Select {ele.text}</h1>
+                  <span className="steps-indicator">Step <b>{idx + 1}</b> of {url.length}</span>
+                </header>
+              )}
+              
+              {page === "models" &&
+                <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-desktop">Article &amp; Download</a>
+              }
+              
               <Routes>
-                <Route index element={<Models total={total} model={model} priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} />
+                <Route index element={<Models total={total} model={model} 
+                  model1={model1} model2={model2}
+                  color={color}
+                  updColor={(data) => setColor(data)}
+                  priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} />
                 {url.map(ele =>
-                  <Route path={"/" + ele.name} element={<ele.component total={total} model={model} priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} key={ele.name} />
+                  <Route path={"/" + ele.name} element={<ele.component total={total} model={model}
+                    model1={model1} model2={model2}
+                    color={color}
+                    updColor={(data) => setColor(data)}
+                    priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} key={ele.name} />
                 )}
               </Routes>
-            </UserContext.Provider>
-          </Router>
-        </header>
-        <Footer total={total} model={model} />
-      </div >
-    </div>
+            </section>
+          </div>
+        </div>
+
+        <Footer total={total} model={model} data={footer} page={page} updPage={updatePage} />
+      </div>
+    </Router>
   );
 }
 
