@@ -16,20 +16,23 @@ export default function Footer(props) {
                         <ul>
                             {props.data.map(ele =>
                                 <li className={props.page === ele.pageFrom ? "visible" : ""} onClick={() => props.updPage(ele.pageTo)} key={ele.pageFrom}>
-                                    <Link to={"/" + ele.pageTo}>{ele.pageTo}</Link>
+                                    {ele.pageTo === props.data[props.data.length - 1].pageTo
+                                        ? <span className="fake-link">{ele.pageTo}</span>
+                                        : <Link to={"/" + ele.pageTo}>{ele.pageTo}</Link>
+                                    }
                                 </li>
                             )}
                         </ul>
                     </li>
-                        <li className="prev nav-item">
-                            <ul>
-                                {props.data.map(ele =>
-                                    <li className={props.page === ele.pageTo ? "visible" : ""} onClick={() => props.updPage(ele.pageFrom)} key={ele.pageTo}>
-                                        <Link to={"/" + ele.pageFrom}>{ele.pageFrom}</Link>
-                                    </li>
-                                )}
-                            </ul>
-                        </li>
+                    <li className="prev nav-item">
+                        <ul>
+                            {props.data.map(ele =>
+                                <li className={props.page === ele.pageTo ? "visible" : ""} onClick={() => props.updPage(ele.pageFrom)} key={ele.pageTo}>
+                                    <Link to={"/" + ele.pageFrom}>{ele.pageFrom}</Link>
+                                </li>
+                            )}
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             <span className="alert">Please, select a model first!</span>

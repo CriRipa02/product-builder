@@ -26,7 +26,7 @@ export default function Models(props) {
                 updTotal = price;
             }
         }
-
+        
         if(data.name === props.model1.id) {
             props.updColor(props.model1.types[0]);
         } else {            

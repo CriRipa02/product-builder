@@ -7,14 +7,14 @@ import Summary from "./sections/pages/summary";
 import { useState } from "react";
 import Header from "./sections/header";
 import Footer from "./sections/footer";
+import Sponsor from "./sections/sponsor";
 
 import prod01_col01 from "./assets/colors/product01_col01.jpg";
 import prod01_col02 from "./assets/colors/product01_col02.jpg";
 import prod01_col03 from "./assets/colors/product01_col03.jpg";
-import prod02_col01 from "./assets/colors/product01_col01.jpg";
-import prod02_col02 from "./assets/colors/product01_col02.jpg";
+import prod02_col01 from "./assets/colors/product02_col01.jpg";
+import prod02_col02 from "./assets/colors/product02_col02.jpg";
 
-import sponsor from "./assets/nucleo-adv-demo-1.jpg";
 
 function App() {
   let [isSponsorVisible, setIsSponsorVisible] = useState(true);
@@ -48,10 +48,10 @@ function App() {
   ];
 
   const footer = [
-    { pageFrom: "models", pageTo: "colors", component: Models },
-    { pageFrom: "colors", pageTo: "accessories", component: Accessories },
-    { pageFrom: "accessories", pageTo: "summary", component: Summary },
-    { pageFrom: "summary", pageTo: "buy-now", component: Summary }
+    { pageFrom: "models", pageTo: "colors" },
+    { pageFrom: "colors", pageTo: "accessories" },
+    { pageFrom: "accessories", pageTo: "summary" },
+    { pageFrom: "summary", pageTo: "buy now" }
   ];
 
   const updateTotal = (newTotal) => {
@@ -69,10 +69,14 @@ function App() {
   }
 
   const updatePage = (newPage) => {
-    setPage(newPage);
-    setPriceColorAddedBefore(0);
-    if (newPage === url[2].name) {
-      setImgFooter(color.img);
+    if(newPage !== footer[footer.length - 1].pageTo) {
+      if(!!model.name) {
+        setPage(newPage);
+        setPriceColorAddedBefore(0);
+        if (newPage === url[2].name || newPage === url[3].name) {
+          setImgFooter(color.img);
+        }
+      }
     }
   }
 
@@ -101,14 +105,16 @@ function App() {
               <Routes>
                 <Route index element={<Models total={total} model={model}
                   model1={model1} model2={model2}
-                  color={color}
-                  updColor={(data) => setColor(data)}
+                  color={color} updColor={(data) => setColor(data)}
+                  accessories={accessories} updAccessories={(data) => setAccessories(data)}
+                  imgFooter={imgFooter}
                   priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
                 {url.map(ele =>
                   <Route path={"/" + ele.name} element={<ele.component total={total} model={model}
                     model1={model1} model2={model2}
                     color={color} updColor={(data) => setColor(data)}
                     accessories={accessories} updAccessories={(data) => setAccessories(data)}
+                    imgFooter={imgFooter}
                     priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} key={ele.name} />
                 )}
               </Routes>
@@ -118,14 +124,9 @@ function App() {
 
         <Footer total={total} model={model} data={footer} img={imgFooter} page={page} updPage={updatePage} />
       </div>
+
       {!!isSponsorVisible &&
-        <div className="demo-avd demo-avd-cf demo-avd--dark js-demo-avd" style={{ top: "30px", right: "30px", bottom: "auto" }}>
-          <div className="demo-avd__close" onClick={() => setIsSponsorVisible(!isSponsorVisible)}></div>
-          <a href="https://nucleoapp.com/?ref=2214" className="demo-avd__template-img">
-            <img src={sponsor} alt="Nucleo logo" />
-          </a>
-          <a href="https://nucleoapp.com/?ref=2214" className="demo-avd__template-text"> Nucleo - Free icon manager for Mac and Windows</a>
-        </div>
+        <Sponsor updateSponsor={() => setIsSponsorVisible(false)} />
       }
     </Router>
   );

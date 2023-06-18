@@ -20,7 +20,12 @@ export default function Accessories(props) {
 
     const updateAccessories = (data) => {
         let accessories = props.accessories;
-        accessories.push(data);
+        if(!accessories.find(item => item.id === data.id)) {
+            accessories.push(data);
+        } else {
+            accessories = accessories.filter(item => item.id !== data.id);
+        }
+        
         props.updAccessories(accessories);
 
         data.isSelected = !data.isSelected;
