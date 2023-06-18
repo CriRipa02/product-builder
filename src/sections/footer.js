@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 export default function Footer(props) {
     return (
-        <footer className={`cd-builder-footer ${props.page === props.data[0].pageFrom ? "step-1" : ""} ${!props.model.img ? "disabled" : ""}`}>
+        <footer className={`cd-builder-footer ${props.page === props.data[0].pageFrom ? "step-1" : ""} ${!props.model.img ? "disabled" : ""} ${!props.model.name ? 'show-alert' : ''} `}>
             <div className="selected-product">
-                <img src={props.model.img} alt="Product preview" />
+                <img src={props.img} alt="Product preview" />
                 <div className="tot-price">
                     <span>Total</span>
                     <span className="total">$<b>{props.total}</b></span>

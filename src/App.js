@@ -21,7 +21,8 @@ function App() {
   const [priceColorAddedBefore, setPriceColorAddedBefore] = useState(0);
   const [color, setColor] = useState({});
   const [accessories, setAccessories] = useState([]);
-
+  const [imgFooter, setImgFooter] = useState("");
+   
   const model1 = {
     id: "BMW i3", types: [
       { img: prod01_col01, value: 0, text: "White", color: "white" },
@@ -56,6 +57,8 @@ function App() {
 
   const updateModel = (newModel) => {
     setModel(newModel);
+    setImgFooter(newModel.img);
+    setAccessories([]);
   }
 
   const updatePriceColorAddedBefore = (newPrice) => {
@@ -65,6 +68,9 @@ function App() {
   const updatePage = (newPage) => {
     setPage(newPage);
     setPriceColorAddedBefore(0);
+    if(newPage === url[2].name) {
+      setImgFooter(color.img);
+    }
   }
 
   return (
@@ -77,7 +83,10 @@ function App() {
             <section className="cd-step-content">
               {url.map((ele, idx) =>
                 <header key={ele.name} className={ele.name !== page ? "no-display" : ""}>
-                  <h1>Select {ele.text}</h1>
+                  {page !== url[0].name && page !== url[1].name 
+                    ? <h1>{ele.text}</h1>
+                    : <h1>Select {ele.text}</h1>
+                  }
                   <span className="steps-indicator">Step <b>{idx + 1}</b> of {url.length}</span>
                 </header>
               )}
@@ -104,7 +113,7 @@ function App() {
           </div>
         </div>
 
-        <Footer total={total} model={model} data={footer} page={page} updPage={updatePage} />
+        <Footer total={total} model={model} data={footer} img={imgFooter} page={page} updPage={updatePage} />
       </div>
     </Router>
   );
