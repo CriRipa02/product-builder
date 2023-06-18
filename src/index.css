@@ -1317,3 +1317,57 @@
       margin-top:32px
   }
 }
+
+.demo-avd--dark {
+  background-color: rgba(255,255,255,.8);
+}
+.demo-avd {
+  position: fixed;
+  width: 200px;
+  border-radius: 0.3em;
+  overflow: hidden;
+  -webkit-box-shadow: 0 4px 20px rgba(0,0,0,.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,.2);
+  z-index: 99;
+  top: 20px;
+  right: 20px;
+  backdrop-filter: blur(10px);
+}
+.demo-avd__close {
+  display: block;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background: url(./assets/icon-avd-close.svg) no-repeat 0 0;
+  opacity: .8;
+  cursor: auto;
+}
+.demo-avd .demo-avd__template-img {
+  display: block;
+  width: 200px;
+}
+.demo-avd--dark .demo-avd__template-img, .demo-avd--dark .demo-avd__template-text {
+  color: rgba(0,0,0,.8);
+}.demo-avd .demo-avd__template-img img {
+  display: block;
+  width: 200px;
+}
+.demo-avd .demo-avd__template-text {
+  text-decoration: none;
+}
+.demo-avd .demo-avd__template-text {
+  font-size: 14px;
+  display: block;
+  line-height: 1.4;
+  text-decoration: none;
+}
+.demo-avd .demo-avd__template-text {
+  padding: 10px;
+  font-family: sans-serif!important;
+}
+.demo-avd--dark .demo-avd__template-img, .demo-avd--dark .demo-avd__template-text {
+  color: rgba(0,0,0,.8);
+}

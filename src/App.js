@@ -14,7 +14,10 @@ import prod01_col03 from "./assets/colors/product01_col03.jpg";
 import prod02_col01 from "./assets/colors/product01_col01.jpg";
 import prod02_col02 from "./assets/colors/product01_col02.jpg";
 
+import sponsor from "./assets/nucleo-adv-demo-1.jpg";
+
 function App() {
+  let [isSponsorVisible, setIsSponsorVisible] = useState(true);
   const [page, setPage] = useState("models");
   const [total, setTotal] = useState(0);
   const [model, setModel] = useState({});
@@ -22,7 +25,7 @@ function App() {
   const [color, setColor] = useState({});
   const [accessories, setAccessories] = useState([]);
   const [imgFooter, setImgFooter] = useState("");
-   
+
   const model1 = {
     id: "BMW i3", types: [
       { img: prod01_col01, value: 0, text: "White", color: "white" },
@@ -68,7 +71,7 @@ function App() {
   const updatePage = (newPage) => {
     setPage(newPage);
     setPriceColorAddedBefore(0);
-    if(newPage === url[2].name) {
+    if (newPage === url[2].name) {
       setImgFooter(color.img);
     }
   }
@@ -83,20 +86,20 @@ function App() {
             <section className="cd-step-content">
               {url.map((ele, idx) =>
                 <header key={ele.name} className={ele.name !== page ? "no-display" : ""}>
-                  {page !== url[0].name && page !== url[1].name 
+                  {page !== url[0].name && page !== url[1].name
                     ? <h1>{ele.text}</h1>
                     : <h1>Select {ele.text}</h1>
                   }
                   <span className="steps-indicator">Step <b>{idx + 1}</b> of {url.length}</span>
                 </header>
               )}
-              
+
               {page === "models" &&
                 <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-desktop">Article &amp; Download</a>
               }
-              
+
               <Routes>
-                <Route index element={<Models total={total} model={model} 
+                <Route index element={<Models total={total} model={model}
                   model1={model1} model2={model2}
                   color={color}
                   updColor={(data) => setColor(data)}
@@ -115,6 +118,15 @@ function App() {
 
         <Footer total={total} model={model} data={footer} img={imgFooter} page={page} updPage={updatePage} />
       </div>
+      {!!isSponsorVisible &&
+        <div className="demo-avd demo-avd-cf demo-avd--dark js-demo-avd" style={{ top: "30px", right: "30px", bottom: "auto" }}>
+          <div className="demo-avd__close" onClick={() => setIsSponsorVisible(!isSponsorVisible)}></div>
+          <a href="https://nucleoapp.com/?ref=2214" className="demo-avd__template-img">
+            <img src={sponsor} alt="Nucleo logo" />
+          </a>
+          <a href="https://nucleoapp.com/?ref=2214" className="demo-avd__template-text"> Nucleo - Free icon manager for Mac and Windows</a>
+        </div>
+      }
     </Router>
   );
 }
