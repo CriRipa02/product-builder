@@ -18,8 +18,9 @@ function App() {
   const [page, setPage] = useState("models");
   const [total, setTotal] = useState(0);
   const [model, setModel] = useState({});
-  const [priceModelAddedBefore, setPriceModelAddedBefore] = useState(0);
+  const [priceColorAddedBefore, setPriceColorAddedBefore] = useState(0);
   const [color, setColor] = useState({});
+  const [accessories, setAccessories] = useState([]);
 
   const model1 = {
     id: "BMW i3", types: [
@@ -57,18 +58,19 @@ function App() {
     setModel(newModel);
   }
 
-  const updatePriceModelAddedBefore = (newPrice) => {
-    setPriceModelAddedBefore(newPrice);
+  const updatePriceColorAddedBefore = (newPrice) => {
+    setPriceColorAddedBefore(newPrice);
   }
 
   const updatePage = (newPage) => {
     setPage(newPage);
+    setPriceColorAddedBefore(0);
   }
 
   return (
     <Router>
       <div className="cd-product-builder">
-        <Header url={url} page={page} updPage={updatePage} />
+        <Header url={url} model={model} page={page} updPage={updatePage} />
 
         <div className="cd-builder-steps">
           <div className="builder-step active back">
@@ -89,13 +91,13 @@ function App() {
                   model1={model1} model2={model2}
                   color={color}
                   updColor={(data) => setColor(data)}
-                  priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} />
+                  priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
                 {url.map(ele =>
                   <Route path={"/" + ele.name} element={<ele.component total={total} model={model}
                     model1={model1} model2={model2}
-                    color={color}
-                    updColor={(data) => setColor(data)}
-                    priceModelAddedBefore={priceModelAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceMod={updatePriceModelAddedBefore} />} key={ele.name} />
+                    color={color} updColor={(data) => setColor(data)}
+                    accessories={accessories} updAccessories={(data) => setAccessories(data)}
+                    priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} key={ele.name} />
                 )}
               </Routes>
             </section>

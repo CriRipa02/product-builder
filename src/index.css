@@ -1,27 +1,3 @@
-*,*::after,*::before {
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%
-}
-
-body {
-  font-size: 1.6rem;
-  font-family: lato,sans-serif;
-  color: #24221f;
-  background-color: #fff
-}
-
-a {
-  color: #5d7c89;
-  text-decoration: none
-}
-
-img {
-  max-width: 100%
-}
-
 .cd-nugget-info {
   position: relative;
   display: block;

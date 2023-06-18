@@ -8,27 +8,22 @@ export default function Models(props) {
         { name: "BMW i3", img: model1, imgName: "product01.jpg", value: "product-01", price: "42400", textPrice: "from $42.400" },
         { name: "BMW i8", img: model2, imgName: "product02.jpg", value: "product-02", price: "140700", textPrice: "from $140.700" }
     ]
-    console.log(props)
 
     const valorizeModel = (data) => {
         const price = Number(data.price);
         let updMod = props.model;
         let updTotal = Number(props.total);
-        let updPriceMod = Number(props.priceModelAddedBefore);
 
         if (!updMod.name) {
             updMod = data;
-            updTotal += price;
-            updPriceMod = price;
+            updTotal = price;
         } else {
             if (updMod.value === data.value) {
                 updMod = {};
-                updTotal -= price;
+                updTotal = 0;
             } else {
                 updMod = data;
-                updTotal -= updPriceMod;
-                updTotal += price;
-                updPriceMod = price;
+                updTotal = price;
             }
         }
 
@@ -39,7 +34,6 @@ export default function Models(props) {
         }
         props.updMod(updMod);
         props.updTot(updTotal);
-        props.updPriceMod(updPriceMod);
     }
 
     return (

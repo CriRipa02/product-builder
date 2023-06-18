@@ -19,13 +19,27 @@ export default function Colors(props) {
             { img: prod02_col02, value: 1800, text: "White Perl Metallic", color: "perl" },
         ]
     }
-    
+
+    const updateColor = (data) => {
+        const value = Number(data.value);
+        let total = Number(props.total);
+        let updPriceCol = Number(props.priceColorAddedBefore);
+        
+        if(value !== updPriceCol) {
+            total = (Number(props.total) - updPriceCol) + value;
+        }
+        
+        props.updColor(data);
+        props.updTot(total);
+        props.updPriceCol(data.value);
+    }
+
     return (
         <div>
             {props.model.name === model1.id
                 ? <ul className="cd-product-previews">
                     {model1.types.map(ele =>
-                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} onClick={() => props.updColor(ele)} key={ele.color}>
+                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} key={ele.color}>
                             <img src={ele.img} alt="Product Preview" className="product-preview" />
                         </li>
                     )}
@@ -33,7 +47,7 @@ export default function Colors(props) {
 
                 : <ul className="cd-product-previews">
                     {model2.types.map(ele =>
-                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} onClick={() => props.updColor(ele)} key={ele.color}>
+                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} key={ele.color}>
                             <img src={ele.img} alt="Product Preview" className="product-preview" />
                         </li>
                     )}
@@ -43,7 +57,7 @@ export default function Colors(props) {
             {props.model.name === model1.id
                 ? <ul className="cd-product-customizer">
                     {model1.types.map(ele =>
-                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} data-content={ele.text + " - $" + ele.value} onClick={() => props.updColor(ele)} key={ele.color}>
+                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} data-content={ele.text + " - $" + ele.value} onClick={() => updateColor(ele)} key={ele.color}>
                             <div data-color={ele.color}>{ele.text}</div>
                         </li>
                     )}
@@ -51,7 +65,7 @@ export default function Colors(props) {
 
                 : <ul className="cd-product-customizer">
                     {model2.types.map(ele =>
-                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} data-content={ele.text + " - $" + ele.value} onClick={() => props.updColor(ele)} key={ele.color}>
+                        <li className={props.color && props.color.color === ele.color ? "selected" : ""} data-content={ele.text + " - $" + ele.value} onClick={() => updateColor(ele)} key={ele.color}>
                             <div data-color={ele.color}>{ele.text}</div>
                         </li>
                     )}
