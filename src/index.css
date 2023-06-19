@@ -1469,15 +1469,3 @@
 .demo-avd--dark .demo-avd__template-text {
   color: rgba(0, 0, 0, .8);
 }
-
-.fake-link {
-  display: block;
-  color: #fff;
-
-}
-
-@media only screen and (min-width: 1024px) {
-  .fake-link {
-    padding-left: 2.3em
-  }
-}

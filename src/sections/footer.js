@@ -17,8 +17,10 @@ export default function Footer(props) {
                             {props.data.map(ele =>
                                 <li className={props.page === ele.pageFrom ? "visible" : ""} onClick={() => props.updPage(ele.pageTo)} key={ele.pageFrom}>
                                     {ele.pageTo === props.data[props.data.length - 1].pageTo
-                                        ? <span className="fake-link">{ele.pageTo}</span>
-                                        : <Link to={"/" + ele.pageTo}>{ele.pageTo}</Link>
+                                        ? <Link>{ele.pageTo}</Link>
+                                        : !!props.model.name 
+                                            ? <Link to={"/" + ele.pageTo}>{ele.pageTo}</Link>
+                                            : <Link>{ele.pageTo}</Link>
                                     }
                                 </li>
                             )}

@@ -8,7 +8,10 @@ export default function Header(props) {
                 <ul className="navbar-nav mr-auto">
                     {props.url.map(ele =>
                         <li className={props.page === ele.name ? "active" : ""} onClick={() => props.updPage(ele.name)} key={ele.name}>
-                            <Link to={"/" + ele.name} className="nav-link">{ele.name}</Link>
+                            {!!props.model.name
+                                ? <Link to={"/" + ele.name} className="nav-link">{ele.name}</Link>
+                                : <Link className="nav-link">{ele.name}</Link>
+                            }
                         </li>
                     )}
                 </ul>
