@@ -41,6 +41,10 @@ html {
   font-size: 62.5%
 }
 
+img {
+  max-width: 100%
+}
+
 body {
   font-size: 1.6rem;
   font-family: lato,sans-serif;
