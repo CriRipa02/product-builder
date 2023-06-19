@@ -10,7 +10,7 @@ export default function Header(props) {
                         <li className={props.page === ele.name ? "active" : ""} onClick={() => props.updPage(ele.name)} key={ele.name}>
                             {!!props.model.name
                                 ? <Link to={"/" + ele.name} className="nav-link">{ele.name}</Link>
-                                : <Link className="nav-link">{ele.name}</Link>
+                                : <Link className="nav-link" onClick={() => props.updShowAlert()}>{ele.name}</Link>
                             }
                         </li>
                     )}

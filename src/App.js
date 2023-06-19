@@ -18,6 +18,7 @@ import prod02_col02 from "./assets/colors/product02_col02.jpg";
 
 function App() {
   let [isSponsorVisible, setIsSponsorVisible] = useState(true);
+  let [showAlert, setShowAlert] = useState(false);
   const [page, setPage] = useState("models");
   const [total, setTotal] = useState(0);
   const [model, setModel] = useState({});
@@ -62,6 +63,7 @@ function App() {
     setModel(newModel);
     setImgFooter(newModel.img);
     setAccessories([]);
+    setShowAlert(false);
   }
 
   const updatePriceColorAddedBefore = (newPrice) => {
@@ -83,7 +85,8 @@ function App() {
   return (
     <Router>
       <div className="cd-product-builder">
-        <Header url={url} model={model} page={page} updPage={updatePage} />
+        <Header showAlert={showAlert} updShowAlert={() => setShowAlert(true)} 
+          url={url} model={model} page={page} updPage={updatePage} />
 
         <div className="cd-builder-steps">
           <div className="builder-step active back">
@@ -122,7 +125,8 @@ function App() {
           </div>
         </div>
 
-        <Footer total={total} model={model} data={footer} img={imgFooter} page={page} updPage={updatePage} />
+        <Footer showAlert={showAlert} updShowAlert={() => setShowAlert(true)} 
+          total={total} model={model} data={footer} img={imgFooter} page={page} updPage={updatePage} />
       </div>
 
       {!!isSponsorVisible &&
