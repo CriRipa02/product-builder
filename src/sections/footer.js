@@ -1,8 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 export default function Footer(props) {
+    const statusPage = (index) => {
+        const currentPage = props.url.find(item => item.name === props.page);
+        
+        if (Number(currentPage.id) > Number(index)) {
+            return "visited";
+        }
+        return "";
+    }
+
     return (
-        <footer className={`cd-builder-footer ${props.page === props.data[0].pageFrom ? "step-1" : ""} ${!props.model.img ? "disabled" : ""} ${!!props.showAlert ? 'show-alert' : ''} `}>
+        <footer className={`cd-builder-footer ${!props.model.img ? "disabled" : ""} ${props.page === props.data[0].pageFrom ? "step-1" : ""} ${!!props.showAlert ? 'show-alert' : ''} `}>
             <div className="selected-product">
                 <img src={props.img} alt="Product preview" />
                 <div className="tot-price">
@@ -14,11 +23,11 @@ export default function Footer(props) {
                 <ul>
                     <li className="next nav-item">
                         <ul>
-                            {props.data.map(ele =>
-                                <li className={props.page === ele.pageFrom ? "visible" : ""} onClick={() => props.updPage(ele.pageTo)} key={ele.pageFrom}>
+                            {props.data.map((ele, idx) =>
+                                <li className={`${props.page === ele.pageFrom ? "visible" : ""} ${statusPage(idx)}`} onClick={() => props.updPage(ele.pageTo)} key={ele.pageFrom}>
                                     {ele.pageTo === props.data[props.data.length - 1].pageTo
                                         ? <Link>{ele.pageTo}</Link>
-                                        : !!props.model.name 
+                                        : !!props.model.name
                                             ? <Link to={"/" + ele.pageTo}>{ele.pageTo}</Link>
                                             : <Link onClick={() => props.updShowAlert()}>{ele.pageTo}</Link>
                                     }
@@ -36,8 +45,8 @@ export default function Footer(props) {
                         </ul>
                     </li>
                 </ul>
-            </nav>
+            </nav >
             <span className="alert">Please, select a model first!</span>
-        </footer>
+        </footer >
     );
 }

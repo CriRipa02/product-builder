@@ -25,7 +25,7 @@ function App() {
   const [priceColorAddedBefore, setPriceColorAddedBefore] = useState(0);
   const [color, setColor] = useState({});
   const [accessories, setAccessories] = useState([]);
-  const [imgFooter, setImgFooter] = useState("");
+  const [imgFooter, setImgFooter] = useState(prod01_col01);
 
   const model1 = {
     id: "BMW i3", types: [
@@ -42,17 +42,17 @@ function App() {
   }
 
   const url = [
-    { name: "models", text: "Model", component: Models },
-    { name: "colors", text: "Color", component: Colors },
-    { name: "accessories", text: "Accessories", component: Accessories },
-    { name: "summary", text: "Summary", component: Summary }
+    { id: 0, name: "models", text: "Model", component: Models },
+    { id: 1, name: "colors", text: "Color", component: Colors },
+    { id: 2, name: "accessories", text: "Accessories", component: Accessories },
+    { id: 3, name: "summary", text: "Summary", component: Summary }
   ];
 
   const footer = [
-    { pageFrom: "models", pageTo: "colors" },
-    { pageFrom: "colors", pageTo: "accessories" },
-    { pageFrom: "accessories", pageTo: "summary" },
-    { pageFrom: "summary", pageTo: "buy now" }
+    { id: 0, pageFrom: "models", pageTo: "colors" },
+    { id: 1, pageFrom: "colors", pageTo: "accessories" },
+    { id: 2, pageFrom: "accessories", pageTo: "summary" },
+    { id: 3, pageFrom: "summary", pageTo: "buy now" }
   ];
 
   const updateTotal = (newTotal) => {
@@ -61,7 +61,11 @@ function App() {
 
   const updateModel = (newModel) => {
     setModel(newModel);
-    setImgFooter(newModel.img);
+    if(!!newModel.img) {
+      setImgFooter(newModel.img);
+    } else {
+      setImgFooter(prod01_col01);
+    }
     setAccessories([]);
     setShowAlert(false);
   }
@@ -71,8 +75,8 @@ function App() {
   }
 
   const updatePage = (newPage) => {
-    if(newPage !== footer[footer.length - 1].pageTo) {
-      if(!!model.name) {
+    if (newPage !== footer[footer.length - 1].pageTo) {
+      if (!!model.name) {
         setPage(newPage);
         setPriceColorAddedBefore(0);
         if (newPage === url[2].name || newPage === url[3].name) {
@@ -82,50 +86,61 @@ function App() {
     }
   }
 
+  const statusPage = (index) => {
+    const currentPage = url.find(item => item.name === page);
+
+    if (Number(index) < Number(currentPage.id)) {
+      return "move left";
+    } else if (Number(index) === Number(currentPage.id)) {
+      return "active back";
+    }
+  }
+
   return (
     <Router>
       <div className="cd-product-builder">
-        <Header showAlert={showAlert} updShowAlert={() => setShowAlert(true)} 
+        <Header showAlert={showAlert} updShowAlert={() => setShowAlert(true)}
           url={url} model={model} page={page} updPage={updatePage} />
 
         <div className="cd-builder-steps">
-          <div className="builder-step active back">
-            <section className="cd-step-content">
-              {url.map((ele, idx) =>
-                <header key={ele.name} className={ele.name !== page ? "no-display" : ""}>
-                  {page !== url[0].name && page !== url[1].name
-                    ? <h1>{ele.text}</h1>
-                    : <h1>Select {ele.text}</h1>
+          <ul>
+            {url.map((ele, idx) =>
+              <li data-selection="models" className={`builder-step ${statusPage(idx)}`} key={ele.name}>
+                <section className="cd-step-content">
+
+                  <header key={ele.name} className={ele.name !== page ? "no-display" : ""}>
+                    {page !== url[0].name && page !== url[1].name
+                      ? <h1>{ele.text}</h1>
+                      : <h1>Select {ele.text}</h1>
+                    }
+                    <span className="steps-indicator">Step <b>{idx + 1}</b> of {url.length}</span>
+                  </header>
+                  {page === "models" &&
+                    <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-desktop">Article &amp; Download</a>
                   }
-                  <span className="steps-indicator">Step <b>{idx + 1}</b> of {url.length}</span>
-                </header>
-              )}
 
-              {page === "models" &&
-                <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-desktop">Article &amp; Download</a>
-              }
-
-              <Routes>
-                <Route index element={<Models total={total} model={model}
-                  model1={model1} model2={model2}
-                  color={color} updColor={(data) => setColor(data)}
-                  accessories={accessories} updAccessories={(data) => setAccessories(data)}
-                  imgFooter={imgFooter}
-                  priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
-                {url.map(ele =>
-                  <Route path={"/" + ele.name} element={<ele.component total={total} model={model}
-                    model1={model1} model2={model2}
-                    color={color} updColor={(data) => setColor(data)}
-                    accessories={accessories} updAccessories={(data) => setAccessories(data)}
-                    imgFooter={imgFooter}
-                    priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} key={ele.name} />
-                )}
-              </Routes>
-            </section>
-          </div>
+                  <Routes>
+                    <Route index element={<Models total={total} model={model}
+                      model1={model1} model2={model2}
+                      color={color} updColor={(data) => setColor(data)}
+                      accessories={accessories} updAccessories={(data) => setAccessories(data)}
+                      imgFooter={imgFooter}
+                      priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
+                    <Route path={"/" + ele.name} element={<ele.component total={total} model={model}
+                      model1={model1} model2={model2}
+                      color={color} updColor={(data) => setColor(data)}
+                      accessories={accessories} updAccessories={(data) => setAccessories(data)}
+                      imgFooter={imgFooter}
+                      priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} key={ele.name} />
+                  </Routes>
+                </section>
+              </li>
+            )}
+          </ul>
         </div>
 
-        <Footer showAlert={showAlert} updShowAlert={() => setShowAlert(true)} 
+        <Footer showAlert={showAlert} updShowAlert={() => setShowAlert(true)}
+          url={url}
           total={total} model={model} data={footer} img={imgFooter} page={page} updPage={updatePage} />
       </div>
 
