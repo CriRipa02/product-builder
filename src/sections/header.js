@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Header(props) {
     return (
@@ -9,7 +9,7 @@ export default function Header(props) {
                     {props.url.map(ele =>
                         <li className={props.page === ele.name ? "active" : ""} onClick={() => props.updPage(ele.name)} key={ele.id}>
                             {!!props.model.name
-                                ? <Link to={"/" + ele.name}>{ele.name}</Link>
+                                ? <Link>{ele.name}</Link>
                                 : <Link onClick={() => props.updShowAlert()}>{ele.name}</Link>
                             }
                         </li>

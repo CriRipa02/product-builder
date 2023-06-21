@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Models from "./sections/pages/models";
 import Colors from "./sections/pages/colors";
 import Accessories from "./sections/pages/accessories";
@@ -121,22 +121,15 @@ function App() {
                     <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-desktop">Article &amp; Download</a>
                   }
 
-                  <Routes>
-                    <Route index element={<Models total={total} model={model}
-                      loadingSelected={loadingSelected} updLoadingSelected={(value) => setLoadingSelected(value)}
-                      model1={model1} model2={model2}
-                      color={color} updColor={(data) => setColor(data)}
-                      accessories={accessories} updAccessories={(data) => setAccessories(data)}
-                      imgFooter={imgFooter}
-                      priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
-                    <Route path={"/" + ele.name} element={<ele.component total={total} model={model}
-                      loadingSelected={loadingSelected} updLoadingSelected={(value) => setLoadingSelected(value)}
-                      model1={model1} model2={model2}
-                      color={color} updColor={(data) => setColor(data)}
-                      accessories={accessories} updAccessories={(data) => setAccessories(data)}
-                      imgFooter={imgFooter}
-                      priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
-                  </Routes>
+                  { ele.name === page &&
+                  <ele.component total={total} model={model}
+                    loadingSelected={loadingSelected} updLoadingSelected={(value) => setLoadingSelected(value)}
+                    model1={model1} model2={model2}
+                    color={color} updColor={(data) => setColor(data)}
+                    accessories={accessories} updAccessories={(data) => setAccessories(data)}
+                    imgFooter={imgFooter}
+                    priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore}/>
+                  }
                 </section>
               </li>
             )}

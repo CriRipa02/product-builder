@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Footer(props) {
     const statusPage = (index) => {
@@ -34,7 +34,7 @@ export default function Footer(props) {
                                     {ele.pageTo === props.data[props.data.length - 1].pageTo
                                         ? <Link>{ele.pageTo}</Link>
                                         : !!props.model.name
-                                            ? <Link to={"/" + ele.pageTo}>{ele.pageTo}</Link>
+                                            ? <Link>{ele.pageTo}</Link>
                                             : <Link onClick={() => props.updShowAlert()}>{ele.pageTo}</Link>
                                     }
                                 </li>
@@ -46,7 +46,7 @@ export default function Footer(props) {
                             {props.data.map((ele, idx) =>
                                 <li className={`${props.page === ele.pageFrom ? "visible" : ""} ${statusPage(idx)}`} onClick={() => updatePage(idx)} key={ele.id}>
                                     {idx > 0 &&
-                                        <Link to={"/" + props.data[idx - 1].pageFrom}>{props.data[idx - 1].pageFrom}</Link>
+                                        <Link>{props.data[idx - 1].pageFrom}</Link>
                                     }
                                 </li>
                             )}
