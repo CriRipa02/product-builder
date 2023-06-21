@@ -7,7 +7,7 @@ export default function Header(props) {
             <nav className={`cd-builder-main-nav ${!props.model.name ? 'disabled' : ''}`}>
                 <ul>
                     {props.url.map(ele =>
-                        <li className={props.page === ele.name ? "active" : ""} onClick={() => props.updPage(ele.name)} key={ele.name}>
+                        <li className={props.page === ele.name ? "active" : ""} onClick={() => props.updPage(ele.name)} key={ele.id}>
                             {!!props.model.name
                                 ? <Link to={"/" + ele.name}>{ele.name}</Link>
                                 : <Link onClick={() => props.updShowAlert()}>{ele.name}</Link>

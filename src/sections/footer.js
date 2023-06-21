@@ -3,11 +3,17 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 export default function Footer(props) {
     const statusPage = (index) => {
         const currentPage = props.url.find(item => item.name === props.page);
-        
+
         if (Number(currentPage.id) > Number(index)) {
-            return "visited";
+            return "visible visited";
         }
         return "";
+    }
+
+    const updatePage = (index) => {
+        if (index > 0) {
+            props.updPage(props.data[index - 1].pageFrom);
+        }
     }
 
     return (
@@ -24,7 +30,7 @@ export default function Footer(props) {
                     <li className="next nav-item">
                         <ul>
                             {props.data.map((ele, idx) =>
-                                <li className={`${props.page === ele.pageFrom ? "visible" : ""} ${statusPage(idx)}`} onClick={() => props.updPage(ele.pageTo)} key={ele.pageFrom}>
+                                <li className={`${props.page === ele.pageFrom ? "visible" : ""} ${statusPage(idx)}`} onClick={() => props.updPage(ele.pageTo)} key={ele.id}>
                                     {ele.pageTo === props.data[props.data.length - 1].pageTo
                                         ? <Link>{ele.pageTo}</Link>
                                         : !!props.model.name
@@ -37,9 +43,11 @@ export default function Footer(props) {
                     </li>
                     <li className="prev nav-item">
                         <ul>
-                            {props.data.map(ele =>
-                                <li className={props.page === ele.pageTo ? "visible" : ""} onClick={() => props.updPage(ele.pageFrom)} key={ele.pageTo}>
-                                    <Link to={"/" + ele.pageFrom}>{ele.pageFrom}</Link>
+                            {props.data.map((ele, idx) =>
+                                <li className={`${props.page === ele.pageFrom ? "visible" : ""} ${statusPage(idx)}`} onClick={() => updatePage(idx)} key={ele.id}>
+                                    {idx > 0 &&
+                                        <Link to={"/" + props.data[idx - 1].pageFrom}>{props.data[idx - 1].pageFrom}</Link>
+                                    }
                                 </li>
                             )}
                         </ul>

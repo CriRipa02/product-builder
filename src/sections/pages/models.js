@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 
 import model1 from "../../assets/models/product01.jpg";
 import model2 from "../../assets/models/product02.jpg";
@@ -10,7 +9,6 @@ export default function Models(props) {
         { id: 1, name: "BMW i8", img: model2, imgName: "product02.jpg", value: "product-02", price: "140700", textPrice: "from $140.700" }
     ]
 
-    let [loadingSelected, setLoadingSelected] = useState("");
 
     const valorizeModel = (data) => {
         const price = Number(data.price);
@@ -31,12 +29,12 @@ export default function Models(props) {
         }
         
         if(data.value === updMod.value) {
-            setLoadingSelected("selected");
+            props.updLoadingSelected("selected");
             setTimeout(() => {
-                setLoadingSelected("selected loaded");
+                props.updLoadingSelected("selected loaded");
             }, 400)
         } else {
-            setLoadingSelected("");
+            props.updLoadingSelected("");
         }
         
         if(data.name === props.model1.id) {
@@ -51,9 +49,9 @@ export default function Models(props) {
     return (
         <ul className="models-list options-list cd-col-2">
             {models.map(ele =>
-                <li className={`js-option js-radio ${ele.value === props.model.value ? loadingSelected : ""}`}
+                <li className={`js-option js-radio ${ele.value === props.model.value ? props.loadingSelected : ""}`}
                     data-price={ele.price} data-model={ele.value}
-                    onClick={() => valorizeModel(ele)} key={ele.name}
+                    onClick={() => valorizeModel(ele)} key={ele.id}
                 >
                     <span className="name">{ele.name}</span>
                     <img src={ele.img} alt={ele.name} />

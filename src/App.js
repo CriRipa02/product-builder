@@ -26,18 +26,19 @@ function App() {
   const [color, setColor] = useState({});
   const [accessories, setAccessories] = useState([]);
   const [imgFooter, setImgFooter] = useState(prod01_col01);
+  const [loadingSelected, setLoadingSelected] = useState("");
 
   const model1 = {
     id: "BMW i3", types: [
-      { img: prod01_col01, value: 0, text: "White", color: "white" },
-      { img: prod01_col02, value: 550, text: "Mineral Grey", color: "grey" },
-      { img: prod01_col03, value: 550, text: "Orange Metallic", color: "orange" },
+      { img: prod01_col01, value: 0, textValue: "0", text: "White", color: "white" },
+      { img: prod01_col02, value: 550, textValue: "550", text: "Mineral Grey", color: "grey" },
+      { img: prod01_col03, value: 550, textValue: "550", text: "Orange Metallic", color: "orange" },
     ]
   }
   const model2 = {
     id: "BMW i8", types: [
-      { img: prod02_col01, value: 0, text: "Grey Metallic", color: "grey" },
-      { img: prod02_col02, value: 1800, text: "White Perl Metallic", color: "perl" },
+      { img: prod02_col01, value: 0, textValue: "0", text: "Grey Metallic", color: "grey" },
+      { img: prod02_col02, value: 1800, textValue: "1.800", text: "White Perl Metallic", color: "perl" },
     ]
   }
 
@@ -79,7 +80,7 @@ function App() {
       if (!!model.name) {
         setPage(newPage);
         setPriceColorAddedBefore(0);
-        if (newPage === url[2].name || newPage === url[3].name) {
+        if (newPage !== url[1].name) {
           setImgFooter(color.img);
         }
       }
@@ -90,10 +91,11 @@ function App() {
     const currentPage = url.find(item => item.name === page);
 
     if (Number(index) < Number(currentPage.id)) {
-      return "move left";
+      return "move-left";
     } else if (Number(index) === Number(currentPage.id)) {
       return "active back";
     }
+    return "";
   }
 
   return (
@@ -105,10 +107,10 @@ function App() {
         <div className="cd-builder-steps">
           <ul>
             {url.map((ele, idx) =>
-              <li data-selection="models" className={`builder-step ${statusPage(idx)}`} key={ele.name}>
+              <li data-selection="models" className={`builder-step ${statusPage(idx)}`} key={ele.id}>
                 <section className="cd-step-content">
 
-                  <header key={ele.name} className={ele.name !== page ? "no-display" : ""}>
+                  <header className={ele.name !== page ? "no-display" : ""}>
                     {page !== url[0].name && page !== url[1].name
                       ? <h1>{ele.text}</h1>
                       : <h1>Select {ele.text}</h1>
@@ -121,17 +123,19 @@ function App() {
 
                   <Routes>
                     <Route index element={<Models total={total} model={model}
+                      loadingSelected={loadingSelected} updLoadingSelected={(value) => setLoadingSelected(value)}
                       model1={model1} model2={model2}
                       color={color} updColor={(data) => setColor(data)}
                       accessories={accessories} updAccessories={(data) => setAccessories(data)}
                       imgFooter={imgFooter}
                       priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
                     <Route path={"/" + ele.name} element={<ele.component total={total} model={model}
+                      loadingSelected={loadingSelected} updLoadingSelected={(value) => setLoadingSelected(value)}
                       model1={model1} model2={model2}
                       color={color} updColor={(data) => setColor(data)}
                       accessories={accessories} updAccessories={(data) => setAccessories(data)}
                       imgFooter={imgFooter}
-                      priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} key={ele.name} />
+                      priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />} />
                   </Routes>
                 </section>
               </li>
