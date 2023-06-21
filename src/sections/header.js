@@ -16,7 +16,7 @@ export default function Header(props) {
                     )}
                 </ul>
             </nav>
-            <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-mobile">Article &amp; Download</a>
+            <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-mobile">Article & Download</a>
         </header>
     );
 }

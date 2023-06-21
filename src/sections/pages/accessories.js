@@ -20,19 +20,25 @@ export default function Accessories(props) {
 
     const updateAccessories = (data) => {
         let accessories = props.accessories;
+
         if(!accessories.find(item => item.id === data.id)) {
+            //add new accessory
             accessories.push(data);
         } else {
+            //remove accessory
             accessories = accessories.filter(item => item.id !== data.id);
         }
         
         props.updAccessories(accessories);
 
+        //accessory is clicked, switch its state
         data.isSelected = !data.isSelected;
 
         if (!data.isSelected) {
+            //remove value of accessory unselected
             props.updTot(props.total - data.value);
         } else {
+            //add value of new accessory
             props.updTot(props.total + data.value);
         }
     }

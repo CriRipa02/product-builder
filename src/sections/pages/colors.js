@@ -22,15 +22,14 @@ export default function Colors(props) {
 
     const updateColor = (data) => {
         const value = Number(data.value);
-        let total = Number(props.total);
+        const total = Number(props.total);
         let updPriceCol = Number(props.priceColorAddedBefore);
+        let newTotal = 0;
         
-        if(value !== updPriceCol) {
-            total = (Number(props.total) - updPriceCol) + value;
-        }
+        newTotal = (total - updPriceCol) + value;
         
         props.updColor(data);
-        props.updTot(total);
+        props.updTot(newTotal);
         props.updPriceCol(data.value);
     }
 

@@ -15,7 +15,6 @@ import prod01_col03 from "./assets/colors/product01_col03.jpg";
 import prod02_col01 from "./assets/colors/product02_col01.jpg";
 import prod02_col02 from "./assets/colors/product02_col02.jpg";
 
-
 function App() {
   let [isSponsorVisible, setIsSponsorVisible] = useState(true);
   let [showAlert, setShowAlert] = useState(false);
@@ -25,7 +24,7 @@ function App() {
   const [priceColorAddedBefore, setPriceColorAddedBefore] = useState(0);
   const [color, setColor] = useState({});
   const [accessories, setAccessories] = useState([]);
-  const [imgFooter, setImgFooter] = useState(prod01_col01);
+  const [imgModelSelected, setImgModelSelected] = useState(prod01_col01);
   const [loadingSelected, setLoadingSelected] = useState("");
 
   const model1 = {
@@ -62,12 +61,14 @@ function App() {
 
   const updateModel = (newModel) => {
     setModel(newModel);
-    if(!!newModel.img) {
-      setImgFooter(newModel.img);
+    if (!!newModel.img) {
+      //new img model selected
+      setImgModelSelected(newModel.img);
     } else {
-      setImgFooter(prod01_col01);
+      //default img model
+      setImgModelSelected(prod01_col01);
     }
-    setAccessories([]);
+    setAccessories([]); //reset accessories selected
     setShowAlert(false);
   }
 
@@ -76,12 +77,21 @@ function App() {
   }
 
   const updatePage = (newPage) => {
-    if (newPage !== footer[footer.length - 1].pageTo) {
-      if (!!model.name) {
+    if (newPage !== footer[footer.length - 1].pageTo) { //"buy now" don't switch page 
+      if (!!model.name) { //if model.name doesn't exist, the alert is visible 
         setPage(newPage);
-        setPriceColorAddedBefore(0);
         if (newPage !== url[1].name) {
-          setImgFooter(color.img);
+          //page isn't "colors"
+          setImgModelSelected(color.img);
+        } else {
+          //page is "colors" 
+          if (!!color.id) {
+            //color is already selected
+            setPriceColorAddedBefore(color.value);
+          } else {
+            //color isn't selected
+            setPriceColorAddedBefore(0);
+          }
         }
       }
     }
@@ -91,10 +101,13 @@ function App() {
     const currentPage = url.find(item => item.name === page);
 
     if (Number(index) < Number(currentPage.id)) {
+      //page is before currentPage 
       return "move-left";
     } else if (Number(index) === Number(currentPage.id)) {
+      //page is currentPage 
       return "active back";
     }
+    //page is after currentPage
     return "";
   }
 
@@ -118,17 +131,17 @@ function App() {
                     <span className="steps-indicator">Step <b>{idx + 1}</b> of {url.length}</span>
                   </header>
                   {page === "models" &&
-                    <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-desktop">Article &amp; Download</a>
+                    <a href="https://codyhouse.co/gem/product-builder" className="cd-nugget-info hide-on-desktop">Article & Download</a>
                   }
 
-                  { ele.name === page &&
-                  <ele.component total={total} model={model}
-                    loadingSelected={loadingSelected} updLoadingSelected={(value) => setLoadingSelected(value)}
-                    model1={model1} model2={model2}
-                    color={color} updColor={(data) => setColor(data)}
-                    accessories={accessories} updAccessories={(data) => setAccessories(data)}
-                    imgFooter={imgFooter}
-                    priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore}/>
+                  {ele.name === page &&
+                    <ele.component total={total} model={model}
+                      loadingSelected={loadingSelected} updLoadingSelected={(value) => setLoadingSelected(value)}
+                      model1={model1} model2={model2}
+                      color={color} updColor={(data) => setColor(data)}
+                      accessories={accessories} updAccessories={(data) => setAccessories(data)}
+                      imgModelSelected={imgModelSelected}
+                      priceColorAddedBefore={priceColorAddedBefore} updTot={updateTotal} updMod={updateModel} updPriceCol={updatePriceColorAddedBefore} />
                   }
                 </section>
               </li>
@@ -138,7 +151,7 @@ function App() {
 
         <Footer showAlert={showAlert} updShowAlert={() => setShowAlert(true)}
           url={url}
-          total={total} model={model} data={footer} img={imgFooter} page={page} updPage={updatePage} />
+          total={total} model={model} data={footer} img={imgModelSelected} page={page} updPage={updatePage} />
       </div>
 
       {!!isSponsorVisible &&

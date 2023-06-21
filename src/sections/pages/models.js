@@ -9,35 +9,39 @@ export default function Models(props) {
         { id: 1, name: "BMW i8", img: model2, imgName: "product02.jpg", value: "product-02", price: "140700", textPrice: "from $140.700" }
     ]
 
-
     const valorizeModel = (data) => {
         const price = Number(data.price);
         let updMod = props.model;
         let updTotal = Number(props.total);
 
         if (!updMod.name) {
+            //new model
             updMod = data;
             updTotal = price;
         } else {
             if (updMod.value === data.value) {
+                //reset model
                 updMod = {};
                 updTotal = 0;
             } else {
+                //change model 
                 updMod = data;
                 updTotal = price;
             }
         }
         
         if(data.value === updMod.value) {
+            //model is selected
             props.updLoadingSelected("selected");
-            setTimeout(() => {
+            setTimeout(() => { //timeout to show loading on the button
                 props.updLoadingSelected("selected loaded");
             }, 400)
         } else {
+            //model is unselected
             props.updLoadingSelected("");
         }
         
-        if(data.name === props.model1.id) {
+        if(data.name === props.model1.id) { //setting colors for specific model
             props.updColor(props.model1.types[0]);
         } else {            
             props.updColor(props.model2.types[0]);

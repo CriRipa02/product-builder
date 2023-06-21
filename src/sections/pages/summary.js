@@ -5,7 +5,7 @@ export default function Summary(props) {
         <ul className="summary-list">
             <li>
                 <h2>Model</h2>
-                <img src={props.imgFooter} alt="Alfa Romeo Giulietta" className="product-preview" />
+                <img src={props.imgModelSelected} alt="Alfa Romeo Giulietta" className="product-preview" />
                 <h3>{props.model.name}</h3>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit saepe facilis hic, unde, numquam vel. Blanditiis sed laboriosam ratione nulla atque molestias at explicabo aperiam reprehenderit culpa nihil, quis totam cupiditate dolores in quisquam magnam inventore nobis, rem adipisci eveniet illum.

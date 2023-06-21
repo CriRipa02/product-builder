@@ -4,14 +4,19 @@ export default function Footer(props) {
     const statusPage = (index) => {
         const currentPage = props.url.find(item => item.name === props.page);
 
-        if (Number(currentPage.id) > Number(index)) {
+        if (Number(currentPage.id) > Number(index)) { 
+            //page is before currentPage
             return "visible visited";
+        } else if(Number(currentPage.id) === Number(index)) {
+            //page is currentPage
+            return "visible";
         }
+        //page is after currentPage
         return "";
     }
 
     const updatePage = (index) => {
-        if (index > 0) {
+        if (index > 0) { //cannot go back from "models"
             props.updPage(props.data[index - 1].pageFrom);
         }
     }
@@ -30,7 +35,7 @@ export default function Footer(props) {
                     <li className="next nav-item">
                         <ul>
                             {props.data.map((ele, idx) =>
-                                <li className={`${props.page === ele.pageFrom ? "visible" : ""} ${statusPage(idx)}`} onClick={() => props.updPage(ele.pageTo)} key={ele.id}>
+                                <li className={`${statusPage(idx)}`} onClick={() => props.updPage(ele.pageTo)} key={ele.id}>
                                     {ele.pageTo === props.data[props.data.length - 1].pageTo
                                         ? <Link>{ele.pageTo}</Link>
                                         : !!props.model.name
@@ -44,7 +49,7 @@ export default function Footer(props) {
                     <li className="prev nav-item">
                         <ul>
                             {props.data.map((ele, idx) =>
-                                <li className={`${props.page === ele.pageFrom ? "visible" : ""} ${statusPage(idx)}`} onClick={() => updatePage(idx)} key={ele.id}>
+                                <li className={`${statusPage(idx)}`} onClick={() => updatePage(idx)} key={ele.id}>
                                     {idx > 0 &&
                                         <Link>{props.data[idx - 1].pageFrom}</Link>
                                     }
